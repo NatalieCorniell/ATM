@@ -6,7 +6,12 @@ namespace CajeroAutomatico
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Title = "CAJERO AUTOMÁTICO";
+
+            Login login = new Login();
+            login._Login();
         }
     }
 }
