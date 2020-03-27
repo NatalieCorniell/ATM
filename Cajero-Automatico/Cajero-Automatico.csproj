@@ -28,16 +28,22 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="PanoramicData.ConsoleExtensions">
+      <HintPath>..\packages\PanoramicData.ConsoleExtensions.1.0.1\lib\netstandard2.0\PanoramicData.ConsoleExtensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Login.cs" />
-    <Compile Include="Mantenimiento-Usuarios.cs" />
-    <Compile Include="Seccion-Administrador.cs" />
+    <Compile Include="UsersCRUD.cs" />
+    <Compile Include="AdminSection.cs" />
     <Compile Include="ATM.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="CRUD.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

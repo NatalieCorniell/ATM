@@ -9,9 +9,7 @@ namespace CajeroAutomatico
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Title = "CAJERO AUTOMÁTICO";
-
-            Login login = new Login();
-            login._Login();
+            Login._Login();
         }
     }
 }
