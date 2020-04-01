@@ -41,6 +41,7 @@
     <Compile Include="ATM.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="CRUD.cs" />
+    <Compile Include="ClientFuncionality.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -6,7 +6,7 @@ namespace CajeroAutomatico
     {
         public Login()
         {
-            
+
 
         }
 

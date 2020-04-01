@@ -8,7 +8,8 @@ namespace CajeroAutomatico
         public static List<_UsersCRUD> _Users = new List<_UsersCRUD>();
 
 
-       public enum AdminMenu {
+        public enum AdminMenu
+        {
 
             ADD_USER = 1,
             EDIT_USER,
@@ -49,7 +50,7 @@ namespace CajeroAutomatico
 
                     switch (Menu)
                     {
-                        case (int) AdminMenu.ADD_USER:
+                        case (int)AdminMenu.ADD_USER:
                             _UsersCRUD.FormAddUser();
                             break;
                         case (int)AdminMenu.EDIT_USER:
@@ -75,7 +76,10 @@ namespace CajeroAutomatico
                             break;
                     }
                 }
-                catch (Exception) { throw; }
+                catch (Exception)
+                {
+                    Menu_Admin();
+                }
             }
         }
     }
