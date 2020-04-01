@@ -4,12 +4,6 @@ namespace CajeroAutomatico
 {
     public class Login
     {
-        public Login()
-        {
-
-
-        }
-
         public static void _Login()
         {
             Console.WriteLine("\n\n\n\n\t\t Bienvenido al Cajero Automático");
@@ -27,8 +21,7 @@ namespace CajeroAutomatico
             if (User != UserAdmin || Pass != PassCorrect)
             {
 
-                Console.WriteLine("\tMENSAJE DE PUREBA!!-USUARIO NO ADMIN");
-                _Login();
+                ClientFuncionality.Menu();
             }
             else
             {

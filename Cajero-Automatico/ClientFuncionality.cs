@@ -4,30 +4,34 @@ namespace CajeroAutomatico
     public class ClientFuncionality
     {
 
-
         public static _UsersCRUD _Users = new _UsersCRUD();
 
         public static double CBalance = 0;
         public static double CDeposit;
         public static double CWithdraw;
 
+
         public static void Menu()
         {
 
 
-            Console.Write("\t\tIntroduzca su pin de 4 dígitos");
-            int pin = int.Parse(Console.ReadLine());
             try
             {
                 while (true)
                 {
                     Console.Clear();
-                    Console.WriteLine("\n\t\tSeleccione la opción que desee realizar \n");
-                    Console.WriteLine("\t\t 1. Consultar CBalance");
+
+                    Console.Title = "SECCIÓN CLIENTES";
+                    Console.WriteLine("\n\n\t\t ############################################\n");
+                    Console.WriteLine("\t\t #### MENU PRINCIPAL - SECCIÓN CLIENTES ####\n");
+                    Console.WriteLine("\t\t ############################################\n");
+
+                    Console.WriteLine("\t\t 1. Consultar Balance");
                     Console.WriteLine("\t\t 2. Realizar retiro");
                     Console.WriteLine("\t\t 3. Realizar depósito");
                     Console.WriteLine("\t\t 4. Cancelar \n");
 
+                    Console.Write("\n\t\tSeleccione la opción que desee realizar: ");
 
                     int menu = int.Parse(Console.ReadLine());
                     switch (menu)
@@ -56,11 +60,54 @@ namespace CajeroAutomatico
         }
         public static void CheckCBalance()
         {
-            CBalance = _Users.Balance;
 
-            Console.WriteLine("\n BANCO: " + _Users.TargetNumber);
-            Console.WriteLine("\n Número de tarjeta: " + _Users.TargetNumber);
-            Console.WriteLine("\n Su Balance actual es de RD$: {0} ", CBalance + "Pesos.");
+            Console.Clear();
+
+            int count = 1;
+            Console.Write("\t Ingrese su contaseña porfavor: ");
+
+            string password = Console.ReadLine();
+
+            var User = AdminSection._Users.Find(x => x.Password == password);
+
+            var userindex = CRUD.GetElement(AdminSection._Users, AdminSection._Users.IndexOf(User));
+
+            if (AdminSection._Users.Contains(userindex))
+            {
+
+                Console.WriteLine("\n\t BANCO: " + ATM.BankName);
+                Console.WriteLine("\t Número de tarjeta: " + userindex.TargetNumber);
+                Console.WriteLine("\t Balance disponible RD$: {0} ", userindex.Balance + "Pesos.");
+
+                Console.ReadKey();
+            }
+            else
+            {
+                count++;
+
+                if ( count < 2)
+                {
+                    Console.Clear();
+                    Console.WriteLine("\t\t##### Acceso denegado, intente de nuevo porfavor #####\n");
+                    Console.ReadKey();
+                    CheckCBalance();
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("\t\t##### Acceso denegado, Desea cancelar ? S/N #####\n");
+
+                    string selection = Console.ReadLine();
+                    if (selection == "s")
+                    {
+                        CheckCBalance();
+                    }
+
+                    Console.ReadKey();
+                    Menu();
+                }
+            }
+
         }
         public static void WithDraw()
         {
