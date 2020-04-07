@@ -25,39 +25,27 @@ namespace CajeroAutomatico
                 if (!Directory.Exists("DATA-UsersCrud.dat"))
                 {
                     Directory.CreateDirectory("DATA.dat");
-                   serializeController.Serialize(_UsersCRUD, "DATA-UsersCrud.dat");
+                    serializeController.Serialize(_UsersCRUD, "DATA-UsersCrud.dat");
                 }
             }
 
 
-            try
-            {
+            /* IFormatter formatter = new BinaryFormatter();
+             Stream stream = new FileStream(, FileMode.Open, FileAccess.Read);
 
-               /* IFormatter formatter = new BinaryFormatter();
-                Stream stream = new FileStream(, FileMode.Open, FileAccess.Read);
+             _UsersCRUD = (_UsersCRUD)formatter.Deserialize(stream);
+             FileStream stream = new FileStream("DATABASE.dat", FileMode.Create);
+             BinaryFormatter formatter = new BinaryFormatter();
+             //formatter.Serialize(stream, datos);
+             stream.Close();
+             */
+            //FileStream streamD = new FileStream("DATABASE.dat", FileMode.Open);
+            // BinaryFormatter formatterD = new BinaryFormatter();
+            //datos = (Datos)(formatterD.Deserialize(streamD));
+            // datos = (Datos)serializeController.DesSerialize("DATABASE.dat");
+            //datos = D_Datos ?? new Datos();
 
-                _UsersCRUD = (_UsersCRUD)formatter.Deserialize(stream);
-                FileStream stream = new FileStream("DATABASE.dat", FileMode.Create);
-                BinaryFormatter formatter = new BinaryFormatter();
-                //formatter.Serialize(stream, datos);
-                stream.Close();
-                */
-                //FileStream streamD = new FileStream("DATABASE.dat", FileMode.Open);
-                // BinaryFormatter formatterD = new BinaryFormatter();
-                //datos = (Datos)(formatterD.Deserialize(streamD));
-                // datos = (Datos)serializeController.DesSerialize("DATABASE.dat");
-                //datos = D_Datos ?? new Datos();
-
-                // streamD.Close();
-
-            }
-            catch (Exception)
-            {
-
-
-            }
-           
-
+            // streamD.Close();
 
 
             Console.Clear();
@@ -114,10 +102,9 @@ namespace CajeroAutomatico
             string UserAdmin = "1";
             string AdminPass = "2";
 
-
             if (TargetNumber != UserAdmin || pass != AdminPass)
             {
-                int MaxAttempts = 0;
+
                 var User = AdminSection._Users.Find(x => x.TargetNumber == TargetNumber);
                 var userindex = CRUD.GetElement(AdminSection._Users, AdminSection._Users.IndexOf(User));
                 if (AdminSection._Users.Contains(userindex))
@@ -134,13 +121,20 @@ namespace CajeroAutomatico
 
                         {
                             Console.Clear();
-                            Console.WriteLine("\t\t# Recuerde su cuenta está bloqueada. #");
+                            Console.WriteLine("\n\n\t\t# Recuerde su cuenta está bloqueada. #");
                             Console.ReadKey();
                             _Login();
                         }
                         else
                         {
-                            if (MaxAttempts == 3)
+
+
+                            int MaxAttempts = 0;
+                            MaxAttempts++;
+
+                           
+
+                            if (MaxAttempts >= 3)
                             {
                                 Console.Clear();
 
@@ -150,27 +144,30 @@ namespace CajeroAutomatico
                                 userindex.Status = false;
 
                                 Console.ReadKey();
+                                _Login();
                             }
-                            else
-                            {
-                                Console.WriteLine("\t\t#########################################################");
-                                Console.WriteLine("\t\t# La contraseña no es correcta, intentelo una nueva vez #");
-                                Console.WriteLine("\t\t#########################################################");
-                                MaxAttempts++;
-                            }
+                            Console.WriteLine("\t\t# La contraseña no es correcta, intentelo una nueva vez #");
+                            Console.ReadKey();
+                            _Login();
+
                         }
                     }
 
                 }
-                else {Console.WriteLine("\t Este usuario no existe"); Console.ReadKey(); _Login(); }
-               
+                else if (!AdminSection._Users.Contains(userindex))
+                {
+                    Console.WriteLine("\t Este usuario no existe"); Console.ReadKey(); _Login();
+                }
             }
-            else
+            else if (TargetNumber == UserAdmin && pass == AdminPass)
             {
                 AdminSection.Menu_Admin();
             }
+            else
+            {
+               Console.WriteLine("\t Este usuario no existe"); Console.ReadKey(); _Login(); 
+            }
             Console.ReadKey();
-
         }
 
     }
