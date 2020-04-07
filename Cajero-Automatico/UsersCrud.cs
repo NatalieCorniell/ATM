@@ -4,6 +4,7 @@ using System.Linq;
 using PanoramicData.ConsoleExtensions;
 namespace CajeroAutomatico
 {
+    [Serializable]
     public class _UsersCRUD
     {
         public static List<string> _TargetNumberValidation = new List<string>();

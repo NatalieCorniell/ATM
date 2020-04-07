@@ -2,6 +2,7 @@
 using PanoramicData.ConsoleExtensions;
 namespace CajeroAutomatico
 {
+    [Serializable]
     public class RestartPassword
     {
         public static void Restart()

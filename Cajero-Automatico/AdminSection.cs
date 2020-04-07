@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace CajeroAutomatico
 {
+    [Serializable]
     public static class AdminSection
     {
         public static List<_UsersCRUD> _Users = new List<_UsersCRUD>();

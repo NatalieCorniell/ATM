@@ -1,6 +1,7 @@
 ﻿using System;
 namespace CajeroAutomatico
 {
+    [Serializable]
     public class ActiveUser
     {
         public static void Active()

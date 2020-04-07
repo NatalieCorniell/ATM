@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 namespace CajeroAutomatico
 {
+    [Serializable]
     public class ATM
     {
 

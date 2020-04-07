@@ -2,18 +2,14 @@
 using System.Collections.Generic;
 
 namespace CajeroAutomatico
-{
+{ [Serializable]
     public class LogTransacciones
     {
-
         public static List<LogTransacciones> transactions = new List<LogTransacciones>();
-
-
         public string Client { get; set; }
         public string Type { get; set; }
         public string Date { get; set; }
         public string Info { get; set; }
-
         public static void Show(bool IsWait = false)
         {
 

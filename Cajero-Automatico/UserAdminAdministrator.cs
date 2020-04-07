@@ -4,6 +4,7 @@ using PanoramicData.ConsoleExtensions;
 
 namespace CajeroAutomatico
 {
+    [Serializable]
     public class UserAdminAdministrator
     {
         public static List<UserAdminAdministrator> _UsersAdmin = new List<UserAdminAdministrator>();

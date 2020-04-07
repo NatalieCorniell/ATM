@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using PanoramicData.ConsoleExtensions;
 namespace CajeroAutomatico
 {
+    [Serializable]
     public class ClientFuncionality
     {
         public static LogTransacciones transacciones = new LogTransacciones();

@@ -1,6 +1,8 @@
 ﻿using System;
 namespace CajeroAutomatico
 {
+    [Serializable]
+
     public class AddBalance
     {
         public static void AddB()
