@@ -1,89 +1,138 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using PanoramicData.ConsoleExtensions;
+
 namespace CajeroAutomatico
 {
-    public class _UsersCRUD
+    public class UserAdminAdministrator
     {
+        public static List<UserAdminAdministrator> _UsersAdmin = new List<UserAdminAdministrator>();
         public static List<string> _TargetNumberValidation = new List<string>();
+
         public string Name { get; set; }
         public string LastName { get; set; }
         public string TargetNumber { get; set; }
         public string Password { get; set; }
-        public double Balance { get; set; }
         public string Role { get; set; }
-        public bool  Status { get; set; }
 
-        public static void FormAddUser()
+        private enum MenuA
+        {
+            ADD_ADMIN = 1,
+            EDIT_ADMIN,
+            SHOW_ADMIN,
+            DELETE_ADMIN
+        }
+        public static void MenuAdmin()
         {
             try
             {
+                while (true)
+                {
+                    Console.Clear();
+                    Console.Title = "SECCIÓN USUARIOS ADMINISTRADOR";
+                    Console.WriteLine("\t\t #### MENU - SECCIÓN USUSARIOS 'ADMINISTRADORÚ ####\n");
+
+                    Console.WriteLine("\t 1. Agregar Usuario.");
+                    Console.WriteLine("\t 2. Editar Usuario. ");
+                    Console.WriteLine("\t 3. Listar Usuarios. ");
+                    Console.WriteLine("\t 4. Eliminar Usuario.");
+                    Console.WriteLine("\t 0. Volver");
+
+                    Console.Write("\n\t\tSeleccione la opción que desee realizar: ");
+                    int menu = Convert.ToInt32(Console.ReadLine());
+                    switch (menu)
+                    {
+                        case (int)MenuA.ADD_ADMIN:
+                            Add_UserAdmin();
+                            break;
+                        case (int)MenuA.EDIT_ADMIN:
+                            Edit_UserAdmin();
+                            break;
+                        case (int)MenuA.SHOW_ADMIN:
+                            Console.Clear();
+                            List_UserAdmin(true);
+                            break;
+                        case (int)MenuA.DELETE_ADMIN:
+                            Delete_UserAdmin();
+                            break;
+                        case 0:
+                            Exit();
+                            break;
+                        default:
+                           MenuAdmin();
+                            break;
+                    }
+                }
+            }
+            catch (Exception) { MenuAdmin(); }
+        }
+        public static bool Validation(string Elements)
+        {
+            bool valid = true;
+            foreach (string element in _TargetNumberValidation)
+            {
+                if (element == Elements)
+                {
+                    valid = false;
+                }
+            }
+
+            return valid;
+        }
+        private static void Add_UserAdmin()
+        {
+            try
+            {
+
                 Console.Clear();
-                Console.WriteLine("\n\n\t Llene los campos ");
                 Console.Write("\t Nombre: ");
-                string nameUser = Console.ReadLine();
+                string nameUserAdmin = Console.ReadLine();
                 Console.Write("\t Apellido: ");
-                string lastnameUser = Console.ReadLine();
+                string lastnameUserAdmin = Console.ReadLine();
                 Console.Write("\t Número de tarjeta: ");
-                string targetNumberUser = Console.ReadLine();
-                Console.Write("\t Pin de Contraseña: ");
+                string targetNumberUserAdmin = Console.ReadLine();
+                Console.Write("\t Contraseña: ");
                 string PasswordUser = ConsolePlus.ReadPassword();
-                Console.Write("\n\t Saldo inicial: ");
-                double BalanceUser = Convert.ToInt32(Console.ReadLine());
 
-
-                if (nameUser == "" || lastnameUser == "" ||
-                    targetNumberUser == "" || PasswordUser == "" ||
-                    BalanceUser <= 0)
+                if (nameUserAdmin == "" || nameUserAdmin == "" ||
+                   targetNumberUserAdmin == "" || PasswordUser == "")
                 {
                     Console.WriteLine("\n\t Debe llenar todos los campos. \n ");
                     Console.ReadKey();
-                    FormAddUser();
+                    Add_UserAdmin();
                 }
                 else
                 {
-                    if (Validation(targetNumberUser))
+                    if (Validation(targetNumberUserAdmin))
                     {
-                        CRUD.Add(_TargetNumberValidation, targetNumberUser);
-                        _UsersCRUD Users = new _UsersCRUD
+                        UserAdminAdministrator Users = new UserAdminAdministrator
                         {
-                            Name = nameUser,
-                            LastName = lastnameUser,
-                            TargetNumber = targetNumberUser,
+                            Name = nameUserAdmin,
+                            LastName = lastnameUserAdmin,
+                            TargetNumber = targetNumberUserAdmin,
                             Password = PasswordUser,
-                            Balance = BalanceUser,
-                            Role = "Cliente",
-                            Status = true
+                            Role = "Administrador"
                         };
-                        CRUD.Add(AdminSection._Users, Users);
+
+                        CRUD.Add(_UsersAdmin, Users);
                     }
                     else
                     {
                         Console.WriteLine("\t\t ERROR. Número de tarjeta ya existente.\n");
                         Console.ReadKey();
-                        FormAddUser();
+                        Add_UserAdmin();
                     }
-
                 }
 
-                if (AdminSection._Users.Count != 0)
+                if (_UsersAdmin.Count != 0)
                 {
-                    Console.WriteLine("\n\n\n\n\n\n\t\t########################################\n");
-                    Console.WriteLine("\t\t##### Usuario Guardado Con Exito!! #####\n");
-                    Console.WriteLine("\t\t########################################\n");
-
-                    Console.Write("\n\t\t Desea agregar otro usuario? S/N : ");
-                    string SE = Console.ReadLine();
-                    if (SE == "s")
-
-                    {
-                        FormAddUser();
-                    }
-
+                    Console.WriteLine("\n\n\t\t Usuario Guardado Con Exito!!");
                     Console.ReadKey();
-                    AdminSection.Menu_Admin();
-
+                }
+                else
+                {
+                    Console.WriteLine("\n\t :( usuario no guardado, verifique e intente nuevamente.");
+                    Console.ReadKey();
                 }
             }
             catch (Exception)
@@ -91,18 +140,17 @@ namespace CajeroAutomatico
                 Console.Clear();
                 Console.WriteLine("\n\n \t\t ERROR!! \n");
 
-                Console.WriteLine("\t :( usuario no guardado, verifique e intente nuevamente. \n");
+                Console.WriteLine("\n\t :( usuario no guardado, verifique e intente nuevamente. \n");
                 Console.ReadKey();
-                FormAddUser();
+                Add_UserAdmin();
             }
-
         }
-        public static void FormEditUsers()
-
+        public static void Edit_UserAdmin()
         {
-            if (AdminSection._Users.Count == 0)
+
+            if (_UsersAdmin.Count == 0)
             {
-                Console.WriteLine("\t Lista de Usuarios vacia-sección editar ");
+                Console.WriteLine("\t Lista de Usuarios vacia ");
             }
             else
             {
@@ -111,12 +159,11 @@ namespace CajeroAutomatico
                 {
                     Console.Write("\t Introduzca el número de la Tarjeta: ");
                     string targetUser = Console.ReadLine();
-                    var User = AdminSection._Users.Find(x => x.TargetNumber == targetUser);
+                    var User = _UsersAdmin.Find(x => x.TargetNumber == targetUser);
 
+                    var userindex = CRUD.GetElement(_UsersAdmin, _UsersAdmin.IndexOf(User));
 
-                    var userindex = CRUD.GetElement(AdminSection._Users, AdminSection._Users.IndexOf(User));
-
-                    if (AdminSection._Users.Contains(userindex))
+                    if (_UsersAdmin.Contains(User))
                     {
 
                         Console.Clear();
@@ -125,36 +172,19 @@ namespace CajeroAutomatico
                         string nameUser = Console.ReadLine();
                         Console.Write("\t Apellido: ");
                         string lastnameUser = Console.ReadLine();
-
-                        if (nameUser == "" || targetUser == "")
+                        UserAdminAdministrator UsersA = new UserAdminAdministrator
                         {
-                            Console.WriteLine("\n\t Debe llenar todos los campos. \n ");
-                            Console.ReadKey();
-                            FormAddUser();
-                        }
-                        else
-                        {
-
-                            _UsersCRUD Users = new _UsersCRUD
-                            {
-                                Name = nameUser,
-                                LastName = lastnameUser
-                            };
+                            Name = nameUser,
+                            LastName = lastnameUser
+                        };
+                        int indexTarget = _UsersAdmin.IndexOf(User);
 
 
-                            //CRUD.Edit(AdminSection._Users, (User.ToString().IndexOf(User.ToString()) - 1), Users);
+                        CRUD.Edit(_UsersAdmin, indexTarget, UsersA);
 
-                            int indexTarget = AdminSection._Users.IndexOf(User);
+                        Console.WriteLine("\t Usuario Editado Con Exito!!");
+                        Console.ReadKey();
 
-
-                            CRUD.Edit(AdminSection._Users, indexTarget, Users);
-
-                            Console.Clear();
-                            Console.WriteLine("\n\n\n\n\n\n\t\t########################################\n");
-                            Console.WriteLine("\t\t##### Usuario Editado Con Exito!! #####\n");
-                            Console.WriteLine("\t\t########################################\n");
-                            Console.ReadKey();
-                        }
                     }
                     else
                     {
@@ -165,13 +195,12 @@ namespace CajeroAutomatico
                         if (selection == "s")
 
                         {
-                            FormEditUsers();
+                            Edit_UserAdmin();
                         }
 
                         Console.ReadKey();
                         AdminSection.Menu_Admin();
                     }
-
                 }
                 catch (Exception)
                 {
@@ -182,7 +211,7 @@ namespace CajeroAutomatico
                     if (selection == "s")
 
                     {
-                        FormEditUsers();
+                        Edit_UserAdmin();
                     }
 
                     Console.ReadKey();
@@ -190,10 +219,9 @@ namespace CajeroAutomatico
                 }
             }
         }
-        public static void FormShowUsers(bool IsWait = false)
-
+        public static void List_UserAdmin(bool IsWait = false)
         {
-            if (AdminSection._Users.Count == 0)
+            if (_UsersAdmin.Count == 0)
             {
                 Console.WriteLine("\t Listado de usuarios vacia");
                 Console.ReadKey();
@@ -203,7 +231,7 @@ namespace CajeroAutomatico
             {
                 Console.WriteLine("\t\t Listado de usuarios: ");
                 int count = 1;
-                foreach (_UsersCRUD Element in AdminSection._Users)
+                foreach (UserAdminAdministrator Element in _UsersAdmin)
                 {
                     Console.WriteLine(count + " - " + Element.Name + " " + Element.LastName);
                     count++;
@@ -214,12 +242,12 @@ namespace CajeroAutomatico
                 }
             }
         }
-        public static void FormDeleteUser()
-
+        public static void Delete_UserAdmin()
         {
+
             try
             {
-                if (AdminSection._Users.Count == 0)
+                if (_UsersAdmin.Count == 0)
                 {
                     Console.Clear();
                     Console.WriteLine("\t\t Lista de usuarios vacia");
@@ -228,25 +256,22 @@ namespace CajeroAutomatico
                 else
                 {
                     Console.Clear();
-
-                    FormShowUsers(false);
                     Console.Write("\t Introduzca el número de la Tarjeta: ");
                     string targetUser = Console.ReadLine();
 
-                    var User = AdminSection._Users.Find(x => x.TargetNumber == targetUser);
+                    var User = _UsersAdmin.Find(x => x.TargetNumber == targetUser);
 
-                    var userindex = CRUD.GetElement(AdminSection._Users, AdminSection._Users.IndexOf(User));
+                    var userindex = CRUD.GetElement(_UsersAdmin, _UsersAdmin.IndexOf(User));
 
-                    if (AdminSection._Users.Contains(userindex))
+                    if (_UsersAdmin.Contains(userindex))
                     {
-                        Console.Write("\t Está seguro que desa eliminar este usuario ? S/N : ");
+                        Console.Write("\n\t Está seguro que desa eliminar este usuario ? S/N : ");
                         string selection = Console.ReadLine();
-                        if (selection != "S")
+                        if (selection == "s")
                         {
+                            int indexTarget = _UsersAdmin.IndexOf(userindex);
 
-                            int indexTarget = AdminSection._Users.IndexOf(userindex);
-
-                            CRUD.Delete(AdminSection._Users, indexTarget);
+                            CRUD.Delete(_UsersAdmin, indexTarget);
 
                             Console.Clear();
                             Console.WriteLine("\n\n\n\n\n\n\t\t#######################################\n");
@@ -271,7 +296,7 @@ namespace CajeroAutomatico
                         if (selection == "s")
 
                         {
-                            FormDeleteUser();
+                            Delete_UserAdmin();
                         }
 
                         Console.ReadKey();
@@ -288,26 +313,27 @@ namespace CajeroAutomatico
                 if (selection == "s")
 
                 {
-                    FormDeleteUser();
+                    Delete_UserAdmin();
                 }
 
                 Console.ReadKey();
                 AdminSection.Menu_Admin();
             }
-
         }
-        public static bool Validation(string Elements)
+        public static void Exit()
         {
-            bool valid = true;
-            foreach (string element in _TargetNumberValidation)
+            Console.Clear();
+            Console.Write("\n\n\t\t ¿Desea cerrar sección?\n1-Si\n2-No");
+            int resp = Convert.ToInt32(Console.ReadLine());
+            switch (resp)
             {
-                if (element == Elements)
-                {
-                    valid = false;
-                }
+                case 1:
+                    Login._Login();
+                    break;
+                case 2:
+                    AdminSection.Menu_Admin();
+                    break;
             }
-
-            return valid;
         }
     }
 }

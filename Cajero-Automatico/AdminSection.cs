@@ -15,11 +15,12 @@ namespace CajeroAutomatico
             EDIT_USER,
             DELETE_USER,
             SHOW_USER,
-            PASSWORDS,
+            RESTART_PASSWORDS,
             TRANSACTIONS,
             ATM,
             USER_ADMINISTRATION,
             USER_ACTIVE,
+            ADD_BALANCE,
             CLOSE_SECTION
         }
         public static void Menu_Admin()
@@ -41,6 +42,7 @@ namespace CajeroAutomatico
                 Console.WriteLine("\t\t 7. Configuracion de ATM. ");
                 Console.WriteLine("\t\t 8. Administrar usuarios. ");
                 Console.WriteLine("\t\t 9. Reactivación de usuario. ");
+                Console.WriteLine("\t\t 10. Agregar saldo. ");
                 Console.WriteLine("\t\t 0. Cerrar sección. \n");
                 try
                 {
@@ -63,8 +65,23 @@ namespace CajeroAutomatico
                             Console.Clear();
                             _UsersCRUD.FormShowUsers(true);
                             break;
+                        case (int)AdminMenu.RESTART_PASSWORDS:
+                            RestartPassword.Restart();
+                            break;
+                        case (int)AdminMenu.TRANSACTIONS:
+                            LogTransacciones.Show();
+                            break;
                         case (int)AdminMenu.ATM:
                             ATM.Menu_ATM();
+                            break;
+                        case (int)AdminMenu.USER_ADMINISTRATION:
+                            UserAdminAdministrator.MenuAdmin();
+                            break;
+                        case (int)AdminMenu.USER_ACTIVE:
+                            ActiveUser.Active();
+                            break;
+                        case (int)AdminMenu.ADD_BALANCE:
+                            AddBalance.AddB();
                             break;
                         case 0:
                             Console.Write("\t Sección de Administrador cerrada ");

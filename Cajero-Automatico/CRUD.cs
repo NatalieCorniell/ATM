@@ -5,9 +5,6 @@ namespace CajeroAutomatico
 {
     public class CRUD
     {
-        public CRUD()
-        {
-        }
         public static void Add<T>(List<T> list, T item)
         {
             list.Add(item);
@@ -20,11 +17,15 @@ namespace CajeroAutomatico
         {
             list[index] = value;
         }
-        public static void Delete<T>(List<T> list, int? index)
+       /* public static void Delete<T>(List<T> list, int? index)
         {
             int indice = index ?? 0;
 
             list.RemoveAt(indice);
+        }*/
+        public static void Delete<T>(List<T> list, int index)
+        {
+            list.RemoveAt(index);
         }
         public static void Show<T>(List<T> list, bool IsWait = false)
         {

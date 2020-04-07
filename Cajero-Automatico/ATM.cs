@@ -5,19 +5,10 @@ namespace CajeroAutomatico
 {
     public class ATM
     {
-        private static int bp50 = 0;
-        private static int bp100 = 0;
-        private static int bp200 = 0;
-        private static int bp500 = 0;
-        private static int bp1000 = 0;
-        private static int bp2000 = 0;
-        private static int result;
-        private string retirement;
-        private static int monto_a_retirar = 0;
 
-        public static string DispensingMode = "";
+        public static int DispensingMode { set; get; }
 
-        public static string BankName { get; set; }
+        public static string BankName = "Banco ITLA";
         public static void Menu_ATM()
         {
             try
@@ -55,7 +46,7 @@ namespace CajeroAutomatico
             }
             catch (Exception)
             {
-                Console.Write("\t ERROR DE SISTEMA: ");
+                Console.Write("\t Número de selección no existente, intente de nuevo porfavor ");
                 Console.ReadKey();
                 Menu_ATM();
             }
@@ -70,7 +61,7 @@ namespace CajeroAutomatico
 
                 if (nameBank == "")
                 {
-                    Console.WriteLine("\n\t Debe llenar todos los campos. \n ");
+                    Console.WriteLine("\n\t Debe llenar los campos. \n ");
                     Console.ReadKey();
                     NameBank();
 
@@ -84,7 +75,7 @@ namespace CajeroAutomatico
                     {
                         BankName = nameBank;
                         Console.Clear();
-                        Console.WriteLine("\t\t##### DATO ALMACENADO!! #####\n");
+                        Console.WriteLine("\n\n\n\n\t\t##### DATO ALMACENADO!! #####\n");
                         Console.ReadKey();
                     }
                     else
@@ -109,7 +100,7 @@ namespace CajeroAutomatico
                 Console.Clear();
                 Console.WriteLine("\t\t SELECCIONE EL MODO DE DISPENSACIÓN \n");
                 Console.WriteLine("\t\t 1. Dispensación: papeletas de 200 y 1,000 pesos.");
-                Console.WriteLine("\t\t 2. Dispensación: papeletas de 200 y 1,000 pesos.");
+                Console.WriteLine("\t\t 2. Dispensación: papeletas de 100 y 500 pesos.");
                 Console.WriteLine("\t\t 3. Dispensación: papeletas mínimas.");
                 try
                 {
@@ -147,154 +138,40 @@ namespace CajeroAutomatico
         }
         public static void Config1()
         {
-            Console.WriteLine("dispensacion de - $200 y mil pesos");
-            if (monto_a_retirar == 200)
-            {
-                int re = result = 200;
-                Console.WriteLine("SE DISPENSARÁN: " + re);
-            }
-            else if (monto_a_retirar == 1000)
-            {
-                int re = result = 1000;
-                Console.WriteLine("SE DISPENSARÁN: " + re);
-            }
-            else { Console.WriteLine("ESTE CAJERO SOLO PERMITE RETIROS DE 200 Y MIL PESOS "); }
+
+            DispensingMode = 1;
+            Console.WriteLine("\n\n\n\n\n\n\t\t__________________________________\n");
+            Console.WriteLine("\t\t                                   \n");
+            Console.WriteLine("\t\t__ Modo de dispensación guardado __\n");
+            Console.WriteLine("\t\t                                   \n");
+            Console.WriteLine("\t\t___________________________________\n");
+            Console.ReadKey();
+            Menu_ATM();
 
         }
         public static void Config2()
         {
-            Console.WriteLine("dispensacion de -100 y 500-");
-            if (monto_a_retirar == 100)
-            {
-                int re = result = 100;
-                Console.WriteLine("SE DISPENSARÁN: " + re);
-            }
-            else if (monto_a_retirar == 500)
-            {
-                int re = result = 500;
-                Console.WriteLine("SE DISPENSARÁN: " + re);
-            }
-            else if (monto_a_retirar == 200)
-            {
-                int re = result = 100;
-                Console.WriteLine("SE DISPENSARÁN DOS PAPELETAS DE : " + re);
-            }
-            else if (monto_a_retirar == 300)
-            {
-                int re = result = 100;
-                Console.WriteLine("SE DISPENSARÁN TRES PAPELETAS DE : " + re);
-            }
-            else if (monto_a_retirar == 400)
-            {
-                int re = result = 100;
-                Console.WriteLine("SE DISPENSARÁN CUATRO PAPELETAS DE : " + re);
-            }
-            else if (monto_a_retirar == 500)
-            {
-                int re = result = 500;
-                Console.WriteLine("SE DISPENSARÁN UNA PAPELETAS DE : " + re);
-            }
-            else if (monto_a_retirar == 600)
-            {
-                Console.WriteLine("SE DISPENSARÁN UNA PAPELETAS DE 500 y una de 100");
-            }
-            else if (monto_a_retirar == 700)
-            {
-                Console.WriteLine("SE DISPENSARÁN UNA PAPELETAS DE 500 y dos de 100");
-            }
-            else if (monto_a_retirar == 800)
-            {
-                Console.WriteLine("SE DISPENSARÁN UNA PAPELETAS DE 500 y tres de 100");
-            }
-            else if (monto_a_retirar == 900)
-            {
-                Console.WriteLine("SE DISPENSARÁN UNA PAPELETAS DE 500 y cuatro de 100");
-            }
-            else if (monto_a_retirar == 1000)
-            {
-                Console.WriteLine("SE DISPENSARÁN DOS PAPELETAS DE 500");
-            }
-            else { Console.WriteLine("ESTE CAJERO SOLO PERMITE RETIROS DE 200 Y MIL PESOS "); }
+            DispensingMode = 2;
+            Console.WriteLine("\n\n\n\n\n\n\t\t__________________________________\n");
+            Console.WriteLine("\t\t                                   \n");
+            Console.WriteLine("\t\t__ Modo de dispensación guardado __\n");
+            Console.WriteLine("\t\t                                   \n");
+            Console.WriteLine("\t\t___________________________________\n");
+            Console.ReadKey();
+            Menu_ATM();
 
         }
-        public static void Config3() { }
-
-        public static int Balance = 0;
-        public static int Deposit;
-        public static int Withdraw;
-
-        public static void ClientFuncionality()
+        public static void Config3()
         {
-            Console.Write("\t\tIntroduzca su pin de 4 dígitos");
-            int pin = int.Parse(Console.ReadLine());
-            try
-            {
-                while (true)
-                {
-                    Console.Clear();
-                    Console.WriteLine("\n\t\tSeleccione la opción que desee realizar \n");
-                    Console.WriteLine("\t\t 1. Consultar balance");
-                    Console.WriteLine("\t\t 2. Realizar retiro");
-                    Console.WriteLine("\t\t 3. Realizar depósito");
-                    Console.WriteLine("\t\t 4. Cancelar \n");
+            DispensingMode = 3;
+            Console.WriteLine("\n\n\n\n\n\n\t\t__________________________________\n");
+            Console.WriteLine("\t\t                                   \n");
+            Console.WriteLine("\t\t__ Modo de dispensación guardado __\n");
+            Console.WriteLine("\t\t                                   \n");
+            Console.WriteLine("\t\t___________________________________\n");
+            Console.ReadKey();
+            Menu_ATM();
 
-
-                    int menu = int.Parse(Console.ReadLine());
-                    switch (menu)
-                    {
-                        case 1:
-                            CheckBalance();
-                            break;
-                        case 2:
-                            WithDraw();
-                            break;
-                        case 3:
-                            // Deposito();
-                            break;
-                        case 4:
-                            Console.WriteLine("\n\n\t\t GRACIAS POR UTILIZAR NUESTROS SERVICIOS! \n");
-                            Console.ReadKey();
-                            AdminSection.Menu_Admin();
-                            break;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                ClientFuncionality();
-            }
-        }
-        public static void CheckBalance()
-        {
-            Console.WriteLine("\n Su balance actual es de RD$: {0} ", Balance + "Pesos.");
-        }
-        public static void WithDraw()
-        {
-
-            /* Console.WriteLine("\n ENTER THE Withdraw Balance : ");
-             Withdraw = int.Parse(Console.ReadLine());
-             if (Withdraw % 100 != 0)
-             {
-                 Console.WriteLine("\n PLEASE ENTER THE Balance IN ABOVE 100");
-             }
-             else if (Withdraw > (Balance - 1000))
-             {
-                 Console.WriteLine("\n SORRY! INSUFFICENT BALANCE");
-             }
-             else
-             {
-                 Balance -= Withdraw;
-                 Console.WriteLine("\n\n PLEASE COLLECT YOUR CASH");
-                 Console.WriteLine("\n CURRENT BALANCE IS Rs : {0}", Balance);
-             }
-        }
-        public static void Deposito()
-        {
-            Console.Write("\n Introduzca la cantidad a depositar");
-            Deposit = int.Parse(Console.ReadLine());
-            Balance += Deposit;
-            Console.WriteLine("Su balance actual ahora es RD$: {0}", Balance + " Pesos.");
-        }*/
         }
     }
 }
