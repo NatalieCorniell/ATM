@@ -5,21 +5,11 @@ namespace CajeroAutomatico
 {
     public class ClientFuncionality
     {
+        public static LogTransacciones transacciones = new LogTransacciones();
 
         public static _UsersCRUD _Users = new _UsersCRUD();
         public static List<string> Company = new List<string>();
         public static List<double> Amount = new List<double>();
-
-        // private static  string Gpassword = Console.ReadLine();
-
-        // private static _UsersCRUD GUser = AdminSection._Users.Find(x => x.Password == Gpassword);
-
-        // private static _UsersCRUD Guserindex = CRUD.GetElement(AdminSection._Users, AdminSection._Users.IndexOf(GUser));
-
-        //nota-natalie: hacer que los password no se vean
-
-        //Tambien recordar poner try catch para cuando no halla suficiente dinero
-
 
         public static void Menu()
         {
@@ -91,6 +81,20 @@ namespace CajeroAutomatico
                 Console.WriteLine("\n\t BANCO: " + ATM.BankName);
                 Console.WriteLine("\t Número de tarjeta: " + userindex.TargetNumber);
                 Console.WriteLine("\t Balance disponible RD$: {0} ", userindex.Balance + " Pesos.");
+
+
+                //transaction
+
+                DateTime date = DateTime.Today;
+                LogTransacciones log = new LogTransacciones {
+                    Client = (userindex.Name + " " +  userindex.LastName),
+                    Date = date.ToString(),
+                    Type = "Chequeo de balance",
+                    Info = ("Balance disponlible:  " + userindex.Balance )
+                };
+
+                CRUD.Add(LogTransacciones.transactions, log);
+
                 Console.ReadKey();
             }
             else
@@ -147,6 +151,21 @@ namespace CajeroAutomatico
                             " \t Favor retirar su dinero y tarjeta.");
                         Console.WriteLine("\n\t Su balance actual es : " + balanceA);
                         User.Balance = balanceA;
+
+
+
+                        //transaction
+
+                        DateTime date = DateTime.Today;
+                        LogTransacciones log = new LogTransacciones
+                        {
+                            Client = (userindex.Name + " " + userindex.LastName),
+                            Date = date.ToString(),
+                            Type = "Retiro",
+                            Info = ("Retiro de  " + amount + " pesos.")
+                        };
+
+                        CRUD.Add(LogTransacciones.transactions, log);
 
                         Console.ReadKey();
                         Menu();
@@ -216,6 +235,22 @@ namespace CajeroAutomatico
                             " \t Favor retirar su dinero y tarjeta.");
                         Console.WriteLine("\n\t Su balance actual es : " + balanceA);
                         User.Balance = balanceA;
+
+
+                        //transaction
+
+                        DateTime date = DateTime.Today;
+                        LogTransacciones log = new LogTransacciones
+                        {
+                            Client = (userindex.Name + " " + userindex.LastName),
+                            Date = date.ToString(),
+                            Type = "Retiro",
+                            Info = ("Retiro de  " + amount + " pesos.")
+                        };
+
+                        CRUD.Add(LogTransacciones.transactions, log);
+
+
                         Console.ReadKey();
                         Menu();
                     }
@@ -267,7 +302,7 @@ namespace CajeroAutomatico
 
                     if (amount % 100 == 0 || amount % 200 == 0 || amount % 500 == 0 || amount % 1000 == 0)
                     {
-                        if (amount >= 100)
+                       /* if (amount >= 100)
                         {
                             int b500 = (int)amount / 100;
                             amount = (amount % 100);
@@ -280,7 +315,7 @@ namespace CajeroAutomatico
                             amount = (amount % 200);
                             Console.WriteLine("\n\t Se dispensará: " + b100 + " Billetes de RD$ 200 pesos.");
 
-                        }
+                        }*/
                         if (amount >= 1000)
                         {
                             int b100 = (int)amount / 1000;
@@ -304,6 +339,22 @@ namespace CajeroAutomatico
                             " \t Favor retirar su dinero y tarjeta.");
                         Console.WriteLine("\n\t Su balance actual es : " + balanceA);
                         User.Balance = balanceA;
+
+
+
+                        //transaction
+
+                        DateTime date = DateTime.Today;
+                        LogTransacciones log = new LogTransacciones
+                        {
+                            Client = (userindex.Name + " " + userindex.LastName),
+                            Date = date.ToString(),
+                            Type = "Retiro",
+                            Info = ("Retiro de  " + amount + " pesos.")
+                        };
+
+                        CRUD.Add(LogTransacciones.transactions, log);
+
                         Console.ReadKey();
                         Menu();
                     }
@@ -359,6 +410,22 @@ namespace CajeroAutomatico
                     " \t Nombre....................... " + userindex.Name + " " + userindex.LastName + " \n" +
                     " \t Balance anterior............. -RD$: " + BalanceP + " Pesos." + " \n" +
                     " \t Su Balance actual ahora es... -RD$: {0}", BalanceA + " Pesos.");
+
+
+                    //transaction
+
+                    DateTime date = DateTime.Today;
+                    LogTransacciones log = new LogTransacciones
+                    {
+                        Client = (userindex.Name + " " + userindex.LastName),
+                        Date = date.ToString(),
+                        Type = "Depósito",
+                        Info = ("Depósiyo de  " + deposit + " pesos.")
+                    };
+
+                    CRUD.Add(LogTransacciones.transactions, log);
+
+
                     Console.ReadKey();
 
                 }
@@ -417,7 +484,7 @@ namespace CajeroAutomatico
 
                 int amount = Convert.ToInt32(Console.ReadLine());
 
-                 double Item = CRUD.GetElement(Amount, amount - 1);
+                double Item = CRUD.GetElement(Amount, amount - 1);
 
                 double balance = userindex.Balance - Item;
 
@@ -436,20 +503,32 @@ namespace CajeroAutomatico
                         Menu();
                     }
 
-                        double New = userindex.Balance - balance;
-                        Console.WriteLine("\n\t Banco: " + ATM.BankName);
-                        Console.WriteLine("\t Cliente: " + userindex.Name + " " + userindex.LastName);
-                        Console.WriteLine("\t Compañia de telefono: " + element);
-                        Console.WriteLine("\t Monto: RD$" + Item + " pesos.");
-                        Console.WriteLine("\t Balance Anterior: RD$ " + userindex.Balance + " pesos.");
-                        Console.WriteLine("\t Balance Actual: RD$ " + New + " pesos.");
-                        Console.ReadKey();
+                    double New = userindex.Balance - balance;
+                    Console.WriteLine("\n\t Banco: " + ATM.BankName);
+                    Console.WriteLine("\t Cliente: " + userindex.Name + " " + userindex.LastName);
+                    Console.WriteLine("\t Compañia de telefono: " + element);
+                    Console.WriteLine("\t Monto: RD$" + Item + " pesos.");
+                    Console.WriteLine("\t Balance Anterior: RD$ " + userindex.Balance + " pesos.");
+                    Console.WriteLine("\t Balance Actual: RD$ " + New + " pesos.");
 
-                  
-                    
+
+                    DateTime date = DateTime.Today;
+                    LogTransacciones log = new LogTransacciones
+                    {
+                        Client = (userindex.Name + " " + userindex.LastName),
+                        Date = date.ToString(),
+                        Type = "Compra",
+                        Info = ("Compra de tarjeta de RD$" + balance + " pesos.")
+                    };
+
+                    CRUD.Add(LogTransacciones.transactions, log);
+
+
+
+                    Console.ReadKey();
+
                 }
             }
-
         }
     }
 }

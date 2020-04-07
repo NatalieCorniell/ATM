@@ -69,7 +69,7 @@ namespace CajeroAutomatico
                             RestartPassword.Restart();
                             break;
                         case (int)AdminMenu.TRANSACTIONS:
-                            LogTransacciones.Show();
+                            LogTransacciones.Show(true);
                             break;
                         case (int)AdminMenu.ATM:
                             ATM.Menu_ATM();

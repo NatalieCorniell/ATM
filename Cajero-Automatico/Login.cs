@@ -64,29 +64,65 @@ namespace CajeroAutomatico
             string UserAdmin = "1";
             string AdminPass = "2";
 
-            int MaxAttempts = 0;
+
             if (TargetNumber != UserAdmin || pass != AdminPass)
             {
+                int MaxAttempts = 0;
                 var User = AdminSection._Users.Find(x => x.TargetNumber == TargetNumber);
                 var userindex = CRUD.GetElement(AdminSection._Users, AdminSection._Users.IndexOf(User));
 
-                if (userindex.TargetNumber != TargetNumber || userindex.Password != pass)
-                {
 
-                    Console.WriteLine("no no no no ");
+                if (userindex.TargetNumber == TargetNumber && userindex.Password == pass)
+                {
+                    if (userindex.Status == false)
+
+                    {
+                        Console.Clear();
+                        Console.WriteLine("\t\t# Recuerde su cuenta está bloqueada. #");
+                        Console.ReadKey();
+                        _Login();
+                    }
+                    else
+                    {
+                        ClientFuncionality.Menu();
+                    }
                 }
                 else
                 {
-                    ClientFuncionality.Menu();
-                }
-               
+                    if (userindex.Status == false)
 
+                    {
+                        Console.Clear();
+                        Console.WriteLine("\t\t# Recuerde su cuenta está bloqueada. #");
+                        Console.ReadKey();
+                        _Login();
+                    }
+                    else
+                    {
+                        if (MaxAttempts == 3)
+                        {
+                            Console.Clear();
+
+                            Console.WriteLine("\n\t\t Su contraseña ha sido bloqueada." +
+                            "\n\t\t Para poder desbloquearla consulte con un administrador.\n");
+
+                            userindex.Status = false;
+
+                            Console.ReadKey();
+                        }
+                        else
+                        {
+                            Console.WriteLine("\t\t#########################################################");
+                            Console.WriteLine("\t\t# La contraseña no es correcta, intentelo una nueva vez #");
+                            Console.WriteLine("\t\t#########################################################");
+                            MaxAttempts++;
+                        }
+                    }
+                }
             }
             else
             {
-                
                 AdminSection.Menu_Admin();
-               
             }
             Console.ReadKey();
 

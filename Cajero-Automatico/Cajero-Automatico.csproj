@@ -39,7 +39,6 @@
     <Compile Include="UsersCRUD.cs" />
     <Compile Include="AdminSection.cs" />
     <Compile Include="ATM.cs" />
-    <Compile Include="Menu.cs" />
     <Compile Include="CRUD.cs" />
     <Compile Include="ClientFuncionality.cs" />
     <Compile Include="logTransacciones.cs" />
