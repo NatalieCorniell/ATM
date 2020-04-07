@@ -46,6 +46,7 @@
     <Compile Include="RestartPassword.cs" />
     <Compile Include="ActiveUser.cs" />
     <Compile Include="AddBalance.cs" />
+    <Compile Include="SerializeController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

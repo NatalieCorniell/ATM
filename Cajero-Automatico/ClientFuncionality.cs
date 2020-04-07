@@ -87,11 +87,13 @@ namespace CajeroAutomatico
                 //transaction
 
                 DateTime date = DateTime.Today;
-                LogTransacciones log = new LogTransacciones {
-                    Client = (userindex.Name + " " +  userindex.LastName),
+                LogTransacciones log = new LogTransacciones
+                {
+                    Client = (userindex.Name + " " + userindex.LastName),
+                    Target = userindex.TargetNumber,
                     Date = date.ToString(),
                     Type = "Chequeo de balance",
-                    Info = ("Balance disponlible:  " + userindex.Balance )
+                    Info = ("Balance disponlible:  " + userindex.Balance)
                 };
 
                 CRUD.Add(LogTransacciones.transactions, log);
@@ -161,6 +163,7 @@ namespace CajeroAutomatico
                         LogTransacciones log = new LogTransacciones
                         {
                             Client = (userindex.Name + " " + userindex.LastName),
+                            Target = userindex.TargetNumber,
                             Date = date.ToString(),
                             Type = "Retiro",
                             Info = ("Retiro de  " + amount + " pesos.")
@@ -244,6 +247,7 @@ namespace CajeroAutomatico
                         LogTransacciones log = new LogTransacciones
                         {
                             Client = (userindex.Name + " " + userindex.LastName),
+                            Target = userindex.TargetNumber,
                             Date = date.ToString(),
                             Type = "Retiro",
                             Info = ("Retiro de  " + amount + " pesos.")
@@ -295,70 +299,66 @@ namespace CajeroAutomatico
                 }
                 if (ATM.DispensingMode == 3)
                 {
-                    //Me falta hacer esta parte
+
                     Console.Write("\n\t Introduzca la cantidad a retirar: ");
                     double amount = Convert.ToDouble(Console.ReadLine());
                     var balanceA = userindex.Balance - amount;
 
 
-                    if (amount % 100 == 0 || amount % 200 == 0 || amount % 500 == 0 || amount % 1000 == 0)
+                    if (amount >= 1000)
                     {
-                       /* if (amount >= 100)
-                        {
-                            int b500 = (int)amount / 100;
-                            amount = (amount % 100);
-                            Console.WriteLine("\n\t Se dispensará: " + b500 + " Billetes de RD$ 100 pesos.");
+                        int b = (int)amount / 1000;
+                        Console.WriteLine("\n\t Se dispensará: " + b + " Billetes de RD$ 1000 pesos.");
 
-                        }
-                        if (amount >= 200)
-                        {
-                            int b100 = (int)amount / 200;
-                            amount = (amount % 200);
-                            Console.WriteLine("\n\t Se dispensará: " + b100 + " Billetes de RD$ 200 pesos.");
-
-                        }*/
-                        if (amount >= 1000)
-                        {
-                            int b100 = (int)amount / 1000;
-                            amount = (amount % 1000);
-                            Console.WriteLine("\n\t Se dispensará: " + b100 + " Billetes de RD$ 1,000 pesos.");
-
-                        }
-                        else if (amount >= 500)
-                        {
-                            int b500 = (int)amount / 500;
-                            if (b500 >= 2)
-
-                            {
-                                amount = (amount % 500);
-                                Console.WriteLine("\n\t Se dispensará: " + b500 + " Billetes de RD$ 500 pesos.");
-
-                            }
-                        }
-
-                        Console.WriteLine("\n\n\t\t  Retiro realizado! \n\n" +
-                            " \t Favor retirar su dinero y tarjeta.");
-                        Console.WriteLine("\n\t Su balance actual es : " + balanceA);
-                        User.Balance = balanceA;
-
-
-
-                        //transaction
-
-                        DateTime date = DateTime.Today;
-                        LogTransacciones log = new LogTransacciones
-                        {
-                            Client = (userindex.Name + " " + userindex.LastName),
-                            Date = date.ToString(),
-                            Type = "Retiro",
-                            Info = ("Retiro de  " + amount + " pesos.")
-                        };
-
-                        CRUD.Add(LogTransacciones.transactions, log);
-
-                        Console.ReadKey();
-                        Menu();
+                        amount -= (1000 * b);
                     }
+                    if (amount >= 500)
+                    {
+                        int b = (int)amount / 500;
+                        amount -= (500 * b);
+                        Console.WriteLine("\n\t Se dispensará: " + b + " Billetes de RD$ 500 pesos.");
+
+
+                    }
+                    if (amount >= 200)
+                    {
+                        int b = (int)amount / 200;
+                        amount -= (200 * b);
+                        Console.WriteLine("\n\t Se dispensará: " + b + " Billetes de RD$ 200 pesos.");
+
+
+                    }
+                    if (amount >= 100)
+                    {
+                        int b = (int)amount / 100;
+                        amount -= (100 * b);
+                        Console.WriteLine("\n\t Se dispensará: " + b + " Billetes de RD$ 100 pesos.");
+
+
+                    }
+                    Console.WriteLine("\n\n\t\t  Retiro realizado! \n\n" +
+                                               " \t Favor retirar su dinero y tarjeta.");
+                    Console.WriteLine("\n\t Su balance actual es : " + balanceA);
+                    User.Balance = balanceA;
+
+
+                    //transaction
+
+                    DateTime date = DateTime.Today;
+                    LogTransacciones log = new LogTransacciones
+                    {
+                        Client = (userindex.Name + " " + userindex.LastName),
+                        Target = userindex.TargetNumber,
+                        Date = date.ToString(),
+                        Type = "Retiro",
+                        Info = ("Retiro de RD$" + amount + " pesos.")
+                    };
+
+                    CRUD.Add(LogTransacciones.transactions, log);
+
+                    Console.ReadKey();
+                    Menu();
+
                 }
                 if (ATM.DispensingMode == 0)
                 {
@@ -419,6 +419,7 @@ namespace CajeroAutomatico
                     LogTransacciones log = new LogTransacciones
                     {
                         Client = (userindex.Name + " " + userindex.LastName),
+                        Target = userindex.TargetNumber,
                         Date = date.ToString(),
                         Type = "Depósito",
                         Info = ("Depósiyo de  " + deposit + " pesos.")
